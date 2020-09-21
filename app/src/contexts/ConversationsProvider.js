@@ -16,12 +16,14 @@ const ConversationsProvider = ({ id, children }) => {
   );
   const { contacts } = useContacts();
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
-  const socket = useSocket();
+  const socket  = useSocket();
+
   function createConversations(recipients) {
     setConversations((prevConversations) => {
       return [...prevConversations, { recipients, messages: [] }];
     });
   }
+
   const formattedConversations = conversations.map((conversation, index) => {
     const recipients = conversation.recipients.map((recipient) => {
       const contact = contacts.find((contact) => {
@@ -69,15 +71,19 @@ const ConversationsProvider = ({ id, children }) => {
   );
 
   useEffect(() => {
-    if (socket === null) return;
-    socket.on("recieve-message", addMessageToConversation);
-    return () => socket.off("recieve-message");
-  }, [socket, addMessageToConversation]);
+    if (socket == null) return
 
-  const sendMessage = (recipients, text) => {
-    socket.emit("send-message", { recipients, text });
-    addMessageToConversation({ recipients, text, sender: id });
-  };
+    socket.on('receive-message', addMessageToConversation)
+
+    return () => socket.off('receive-message')
+  }, [socket, addMessageToConversation])
+
+
+  function sendMessage(recipients, text) {
+    socket.emit('send-message', { recipients, text })
+
+    addMessageToConversation({ recipients, text, sender: id })
+  }
 
   const value = {
     conversations: formattedConversations,
