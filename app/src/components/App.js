@@ -1,19 +1,20 @@
 import React from "react";
 import ContactsProvider from "../contexts/ContactsProvider";
-import useLocalStorgae from "../hooks/useLocalStorgae";
+import ConversationsProvider from "../contexts/ConversationsProvider";
+import useLocalStorgae from "../hooks/useLocalStorage";
 import DashBoard from "./DashBoard";
 import Login from "./Login";
-
-
 
 function App() {
   const [id, setId] = useLocalStorgae("id");
 
-  const dashboard=(
+  const dashboard = (
     <ContactsProvider>
-      <DashBoard id={id}/>
+      <ConversationsProvider>
+        <DashBoard id={id} />
+      </ConversationsProvider>
     </ContactsProvider>
-  )
+  );
 
   return <>{id ? dashboard : <Login onIdSubmit={setId} />}</>;
 }

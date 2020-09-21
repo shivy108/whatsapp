@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import Contacts from "./Contacts";
-import Converstations from "./Converstations";
+import Converstations from "./Conversations";
 import NewContactModal from "./NewContactModal";
 import NewConversationModal from "./NewConversationModal";
 
